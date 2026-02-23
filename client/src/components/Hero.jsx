@@ -1,7 +1,7 @@
 function Hero() {
   return (
     <section id="home" className="hero">
-      <h1>Hi, I'm Agatha</h1>
+      <h2>Welcome to Bright Stack Developer.</h2>
       <p>Junior Full-stack developer  with strong ICT background.</p>
       <p><i>"Turning ideas into code"</i></p>
       
@@ -10,7 +10,7 @@ function Hero() {
         src="/images/Hero.jpg" 
         alt="Hero" 
         className="hero-image" 
-        style={{ marginTop: '20px', maxWidth: '100%', height: 'auto' }}
+        style={{ marginTop: '10px', maxWidth: '100%', height: 'auto' }}
       />
     </section>
   );

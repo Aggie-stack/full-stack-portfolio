@@ -3,7 +3,7 @@ function About() {
     <section id="about" className="about">
       <h2>About Me</h2>
       <p>
-        Hi, I'm Agatha! A junior React developer focused on small, clear front-end tasks and quick fixes with a strong ICT background. <br></br>I love creating 
+        A junior full-stack developer focused on small, clear front-end and backend tasks and quick fixes with a strong ICT background. <br></br>I love creating 
         clean, functional web applications and exploring data to solve real-world problems.
       </p>
 
