@@ -1,17 +1,35 @@
+
+
 function Hero() {
   return (
     <section id="home" className="hero">
-      <h2>Welcome to Bright Stack Developer.</h2>
-      <p>Junior Full-stack developer  with strong ICT background.</p>
-      <p><i>"Turning ideas into code"</i></p>
-      
-      {/* Image from public folder */}
-      <img 
-        src="/images/Hero.jpg" 
-        alt="Hero" 
-        className="hero-image" 
-        style={{ marginTop: '10px', maxWidth: '100%', height: 'auto' }}
-      />
+      <div className="hero-left">
+        <img src="/hero-image.jpg" alt="Agatha working on laptop" />
+      </div>
+
+      <div className="hero-right">
+        <div className="hero-content">
+          <h1>Hi, I'm Agatha.</h1>
+          <h2>Full-Stack Developer | ICT Specialist</h2>
+          <p>
+            I build responsive, scalable web applications that solve real-world
+            problems.
+          </p>
+
+          <a href="projects" className="btn-primary">
+            View My Work
+          </a>
+
+          <div className="hero-socials">
+            <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
