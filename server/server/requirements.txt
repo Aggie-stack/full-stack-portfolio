@@ -1,0 +1,12 @@
+Flask==3.0.3
+Flask-Cors==5.0.0
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.45
+Werkzeug==3.0.6
+Jinja2==3.1.6
+itsdangerous==2.2.0
+click==8.1.8
+MarkupSafe==2.1.5
+
+# CRITICAL FIX
+greenlet==3.0.3
