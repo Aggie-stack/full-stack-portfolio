@@ -1,84 +1,100 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_cors import CORS
 import os
 
+# ==============================
+# App Setup
+# ==============================
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Allow frontend to connect
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projects.db'
+# ==============================
+# Database Configuration
+# ==============================
+db_path = os.path.join(os.path.dirname(__file__), "projects.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+# ==============================
+# Models
+# ==============================
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=False)
     github = db.Column(db.String(250), nullable=False)
+    liveDemo = db.Column(db.String(250), nullable=True)
 
     def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "github": self.github
+            "github": self.github,
+            "liveDemo": self.liveDemo
         }
 
-with app.app_context():
-    db.create_all()
+# ==============================
+# Routes
+# ==============================
 
-@app.route("/", methods=["GET"])
-def home():
-    return jsonify({
-        "message": "Backend is running",
-        "status": "success"
-    })
-
+# Get all projects
 @app.route("/projects", methods=["GET"])
 def get_projects():
     projects = Project.query.all()
     return jsonify([p.to_dict() for p in projects])
 
+# Add new project
 @app.route("/projects", methods=["POST"])
 def add_project():
-    data = request.json
+    data = request.get_json()
+    if not data or not data.get("title") or not data.get("description") or not data.get("github"):
+        return jsonify({"error": "Missing required fields"}), 400
+
     project = Project(
         title=data["title"],
         description=data["description"],
-        github=data["github"]
+        github=data["github"],
+        liveDemo=data.get("liveDemo")
     )
     db.session.add(project)
     db.session.commit()
     return jsonify(project.to_dict()), 201
 
+# Update project
 @app.route("/projects/<int:id>", methods=["PUT"])
 def update_project(id):
-    project = Project.query.get(id)
-    if not project:
-        return jsonify({"error": "Project not found"}), 404
-
-    data = request.json
+    project = Project.query.get_or_404(id)
+    data = request.get_json()
     project.title = data.get("title", project.title)
     project.description = data.get("description", project.description)
     project.github = data.get("github", project.github)
+    project.liveDemo = data.get("liveDemo", project.liveDemo)
     db.session.commit()
-    return jsonify(project.to_dict())
+    return jsonify(project.to_dict()), 200
 
+# Delete project
 @app.route("/projects/<int:id>", methods=["DELETE"])
 def delete_project(id):
-    project = Project.query.get(id)
-    if not project:
-        return jsonify({"error": "Project not found"}), 404
+    project = Project.query.get_or_404(id)
     db.session.delete(project)
     db.session.commit()
-    return jsonify({"message": "Deleted"}), 200
+    return jsonify({"message": "Deleted successfully"}), 200
 
-@app.route("/contact", methods=["POST"])
-def contact():
-    data = request.get_json()
-    print(f"Message from {data.get('name')} ({data.get('email')}): {data.get('message')}")
-    return jsonify({"success": True, "message": "Message received!"})
+# ==============================
+# Initialize DB
+# ==============================
+with app.app_context():
+    db.create_all()
+    print("Database ready at:", db_path)
 
+# ==============================
+# Run App
+# ==============================
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True, port=5000)
