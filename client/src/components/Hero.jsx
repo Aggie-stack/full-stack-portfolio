@@ -1,4 +1,4 @@
-
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 function Hero() {
   return (
@@ -19,13 +19,25 @@ function Hero() {
           <a href="projects" className="btn-primary">
             View My Work
           </a>
+          
 
           <div className="hero-socials">
-            <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">
-              GitHub
+            <a
+              href="https://github.com/Aggie-stack"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+            >
+              <FaGithub />
             </a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noreferrer">
-              LinkedIn
+
+            <a
+              href="https://linkedin.com/in/agatha-rukwaro-55422b380/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin />
             </a>
           </div>
         </div>
