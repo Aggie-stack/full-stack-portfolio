@@ -14,7 +14,7 @@ function Projects() {
   const [adding, setAdding] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
 
-  const API_URL = "http://localhost:5000";
+  const API_URL = "https://full-stack-backend-7lmv.onrender.com";
 
   // Fetch projects
   const fetchProjects = async () => {
